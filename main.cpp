@@ -1,7 +1,10 @@
+#include <algorithm>
 #include <array>
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <map>
+#include <utility>
 
 std::ofstream fout("doc/out.txt");
 std::ifstream fin("doc/in.txt");
@@ -18,7 +21,6 @@ struct Node {
 class TwoThreeHeap {
 public:
   void merge(Node *treeList);
-  void insert(int newKey);
   int extractMin();
   void mergeWith(TwoThreeHeap &other);
   void printHeaps(bool show);
@@ -35,7 +37,8 @@ private:
 
 void TwoThreeHeap::addChild(Node *parent, Node *child) {
   // Adds a node, with it's tree to another node
-  if (!parent || !child) return;
+  if (!parent || !child)
+    return;
 
   // Handle neighbours
   Node *highest = parent->child;
@@ -79,7 +82,8 @@ void TwoThreeHeap::replaceNode(Node *oldNode, Node *newNode) {
 }
 
 void TwoThreeHeap::mergeTrunks(Node **a, Node **b) {
-  // Merges two trees (or trunks) with the same dimension while maintaining the heap property.
+  // Merges two trees (or trunks) with the same dimension while maintaining the
+  // heap property.
 
   // Ensure the tree with the smaller root key is the parent
   Node *tree = nullptr;
@@ -96,7 +100,8 @@ void TwoThreeHeap::mergeTrunks(Node **a, Node **b) {
   Node *nextTree = tree->child;
   Node *nextSon = son->child;
 
-  // If their dimensions don't match the dimension of the current merging trees, they are ignored (set to nullptr).
+  // If their dimensions don't match the dimension of the current merging trees,
+  // they are ignored (set to nullptr).
   if (nextTree && nextTree->dimension != son->dimension) {
     nextTree = nullptr;
   }
@@ -149,7 +154,7 @@ void TwoThreeHeap::merge(Node *treeList) {
   // bigger dimension we use it as carry for next position while keeping heap
   // property
 
-  Node *carry = nullptr;  // Temporarily store a tree when dimensions clash 
+  Node *carry = nullptr;  // Temporarily store a tree when dimensions clash
   Node *added = treeList; // First tree in the treeList
 
   do {
@@ -165,7 +170,6 @@ void TwoThreeHeap::merge(Node *treeList) {
       carry = nullptr;
     }
 
-    // Merge if there's a tree
     if (carry != nullptr) {
       // Merge same dimension trees
       mergeTrunks(&added, &carry);
@@ -187,16 +191,6 @@ void TwoThreeHeap::merge(Node *treeList) {
     carry = added;
     added = next;
   } while (added != nullptr || carry != nullptr);
-}
-
-void TwoThreeHeap::insert(int val) {
-  Node *New = new Node();
-  New->child = nullptr;
-  New->left = New->right = nullptr;
-  New->dimension = 0;
-  New->key = val;
-
-  this->merge(New);
 }
 
 int TwoThreeHeap::extractMin() {
@@ -231,47 +225,45 @@ int TwoThreeHeap::extractMin() {
   }
 
   int result = minNode->key;
-  delete minNode; // Free memory
+  delete minNode;
+
   return result;
 }
 
 void TwoThreeHeap::mergeWith(TwoThreeHeap &other) {
   // Merge all the trees from 'other' into 'this'
   for (int d = 0; d < numbMaxTrees; ++d) {
-    if(other.heaps[d] != nullptr) {
-      // Isolate the node before merging
+    if (other.heaps[d] != nullptr) {
       Node *tree = other.heaps[d];
-      tree->parent = nullptr;  
+      tree->parent = nullptr;
       tree->left = tree->right = nullptr;
 
       this->merge(tree);
 
-      // Clear the tree
       other.heaps[d] = nullptr;
     }
   }
   other.n = 0;
 }
 
-void printTree(Node* node, int depth = 0) {
-  if (!node) return;
+void printTree(Node *node, int depth = 0) {
+  if (!node)
+    return;
 
-  // Indent to show the depth of the current node
   for (int i = 0; i < depth; ++i) {
     std::cout << "  ";
   }
 
-  // Print node details
   std::cout << "Node(key=" << node->key << ", dim=" << node->dimension << ")";
   if (node->child) {
-    std::cout << " -> [child=" << node->child->key << " with dim= " << node->child->dimension << "]";
+    std::cout << " -> [child=" << node->child->key
+              << " with dim= " << node->child->dimension << "]";
   }
   std::cout << std::endl;
 
-  // Recursively print children
-  Node* child = node->child;
+  Node *child = node->child;
   if (child) {
-    Node* start = child;
+    Node *start = child;
     do {
       printTree(child, depth + 1);
       child = child->right;
@@ -292,6 +284,8 @@ void TwoThreeHeap::printHeaps(bool show) {
 }
 
 TwoThreeHeap heaps[NMAX];
+std::map<int, std::pair<Node *, int>> nodeOrder;
+int nodeCounter = 0;
 
 void init(int N) {
   for (int i = 0; i < N; i++) {
@@ -299,20 +293,60 @@ void init(int N) {
   }
 }
 
-void add(int i, int x) { 
-  heaps[i].insert(x); 
-  heaps[i].printHeaps(false); 
+void add(int i, int x) {
+  Node *newNode = new Node();
+  newNode->key = x;
+  newNode->dimension = 0;
+  newNode->child = nullptr;
+  newNode->left = newNode->right = nullptr;
+  newNode->parent = nullptr;
+
+  heaps[i].merge(newNode);
+  nodeOrder[nodeCounter++] = {newNode, i};
+
+  heaps[i].printHeaps(false);
 }
 
-int getMin(int i) { 
+int getMin(int i) {
   int result = heaps[i].extractMin();
   fout << result << '\n';
-  return result; 
+
+  heaps[i].printHeaps(false);
+
+  return result;
 }
 
-void decreaseKey(int i, int x) { return; }
+void decreaseKey(int i, int x) {
+  if (nodeOrder.find(i) == nodeOrder.end()) {
+    return;
+  }
 
-void mergeSets(int i, int j) { 
+  Node *targetNode = nodeOrder[i].first;
+
+  targetNode->key -= x;
+
+  while (targetNode->parent != nullptr &&
+         targetNode->key < targetNode->parent->key) {
+    auto itTarget =
+        std::find_if(nodeOrder.begin(), nodeOrder.end(), [&](const auto &p) {
+          return p.second.first == targetNode;
+        });
+    auto itParent =
+        std::find_if(nodeOrder.begin(), nodeOrder.end(), [&](const auto &p) {
+          return p.second.first == targetNode->parent;
+        });
+
+    std::swap(targetNode->key, targetNode->parent->key);
+
+    if (itTarget != nodeOrder.end() && itParent != nodeOrder.end()) {
+      std::swap(itTarget->second.first, itParent->second.first);
+    }
+
+    targetNode = targetNode->parent;
+  }
+}
+
+void mergeSets(int i, int j) {
   heaps[i].mergeWith(heaps[j]);
   heaps[i].printHeaps(false);
 }
@@ -332,24 +366,24 @@ int main() {
     // std::cin >> op >> i;
     fin >> op >> i;
     switch (op) {
-      case 1:
-        // std::cin >> x;
-        fin >> x;
-        add(i, x);
-        break;
-      case 2:
-        std::cout << getMin(i) << '\n';
-        break;
-      case 3:
-        // std::cin >> x;
-        fin >> x;
-        decreaseKey(i, x);
-        break;
-      case 4:
-        // std::cin >> j;
-        fin >> j;
-        mergeSets(i, j);
-        break;
+    case 1:
+      // std::cin >> x;
+      fin >> x;
+      add(i, x);
+      break;
+    case 2:
+      std::cout << getMin(i) << '\n';
+      break;
+    case 3:
+      // std::cin >> x;
+      fin >> x;
+      decreaseKey(i, x);
+      break;
+    case 4:
+      // std::cin >> j;
+      fin >> j;
+      mergeSets(i, j);
+      break;
     }
   } while (_ -= 1);
 
