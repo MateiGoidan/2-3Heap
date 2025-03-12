@@ -1,6 +1,6 @@
 # Two-Three Heap Data Structure
 
-<img align="right" src="./Resources/TwoThreeHeap.gif">
+<img align="right" src="./Resources/TwoThreeHeap.pdf">
 
 ### **Table of content**
 - [Problem Statement](#problem-statement)
@@ -59,7 +59,7 @@ The Two-Three Heap is a **mergeable heap** optimized for operations that require
 ## Performance Complexity
 | Operation      | Complexity |
 |---------------|------------|
-| Insert (`1 i x`) | **O(log N)** |
+| Insert (`1 i x`) | **O(1)** |
 | Extract Min (`2 i`) | **O(log N)** |
 | Decrease Key (`3 i x`) | **O(log N)** |
 | Merge (`4 i j`) | **O(log N)** |
