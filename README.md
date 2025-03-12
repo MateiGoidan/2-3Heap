@@ -1,5 +1,7 @@
 # Two-Three Heap Data Structure
 
+<img align="right" src="Resources/TwoThreeHeap.gif width=25%">
+
 ### **Table of content**
 - [Problem Statement](#problem-statement)
 - [Implementation Details](#implementation-details)
@@ -28,7 +30,7 @@ This project implements a **Two-Three Heap** data structure that supports effici
   - There is at least one element in sub-multiset `i` for operation `2 i`.
   - There is no underflow when performing operation `3 i x`.
 
----
+----------
 
 ## Implementation Details
 The Two-Three Heap is a **mergeable heap** optimized for operations that require frequent merging. The key components of the implementation are:
@@ -52,7 +54,7 @@ The Two-Three Heap is a **mergeable heap** optimized for operations that require
 - Trees from `heaps[i]` are merged into `heaps[j]` while maintaining the heap structure.
 - The **binomial heap** representation ensures efficient merging.
 
----
+----------
 
 ## Performance Complexity
 | Operation      | Complexity |
@@ -62,7 +64,28 @@ The Two-Three Heap is a **mergeable heap** optimized for operations that require
 | Decrease Key (`3 i x`) | **O(log N)** |
 | Merge (`4 i j`) | **O(log N)** |
 
----
+### Benchmark Comparisons
+Below are performance comparisons of the **2-3 Heap** against other heap-based data structures.
+
+<p align="center">
+  <img src="./Resources/Graph_1.jpg">
+</p>
+
+<p align="center">
+  <img src="./Resources/Graph_2.jpg">
+</p>
+
+<p align="center">
+  <img src="./Resources/Graph_3.jpg">
+</p>
+
+<p align="center">
+  <img src="./Resources/Graph_4.jpg">
+</p>
+
+*The 2-3 Heap shows improved performance in scenarios where merging is frequent.*
+
+----------
 
 ## Usage Instructions
 
