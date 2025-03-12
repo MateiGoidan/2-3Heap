@@ -3,12 +3,12 @@
 ### **Table of content**
 - [Problem Statement](#problem-statement)
 - [Implementation Details](#implementation-details)
-    - [Insertion](#insertion-(`-1-i-x`))
-    - [Extract Minimum](#extract-minimum-(`2-i`)) 
-    - [Decrease Key](#decrease-key-(`3-i-x`))
-    - [Merge](#merge-(`4-i-j`))
+    - [Insertion](#insertion-1-i-x)
+    - [Extract Minimum](#extract-minimum-2-i) 
+    - [Decrease Key](#decrease-key-3-i-x)
+    - [Merge](#merge-4-i-j)
 - [Performance Complexity](#performance-complexity) 
-- [Usage Instructions](#usage-instructions) 
+- [Usage Instructions](#usage-instructions)
 
 ## Problem Statement
 
