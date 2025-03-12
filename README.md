@@ -1,7 +1,5 @@
 # Two-Three Heap Data Structure
 
-<img align="right" src="./Resources/TwoThreeHeap.png">
-
 ### **Table of content**
 - [Problem Statement](#problem-statement)
 - [Implementation Details](#implementation-details)
