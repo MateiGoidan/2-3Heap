@@ -2,13 +2,13 @@
 
 ### **Table of content**
 - [Problem Statement](#problem-statement)
-- [Implementation Details](#implementations-details)
-    - [Insertion](#insertion)
-    - [Extract Minimum](#extract-minimum) 
-    - [Decrease Key](#decrease-key)
-    - [Merge](#merge)
+- [Implementation Details](#implementation-details)
+    - [Insertion](#insertion-(`-1-i-x`))
+    - [Extract Minimum](#extract-minimum-(`2-i`)) 
+    - [Decrease Key](#decrease-key-(`3-i-x`))
+    - [Merge](#merge-(`4-i-j`))
 - [Performance Complexity](#performance-complexity) 
-- [Usage Information](#usage-information) 
+- [Usage Instructions](#usage-instructions) 
 
 ## Problem Statement
 
