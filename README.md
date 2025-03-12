@@ -1,6 +1,6 @@
 # Two-Three Heap Data Structure
 
-<img align="right" src="./Resources/TwoThreeHeap.pdf">
+<img align="right" src="./Resources/TwoThreeHeap.png">
 
 ### **Table of content**
 - [Problem Statement](#problem-statement)
