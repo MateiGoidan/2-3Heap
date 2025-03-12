@@ -1,5 +1,20 @@
 # Two-Three Heap Data Structure
 
+### **Table of content**
+- [Problem Statement](#problem-statement)
+    - [Operations](#operations)  
+    - [Constraints](#constraints)
+- [Implementation Details](#implementations-details)
+    - [Insertion](#insertion)
+    - [Extract Minimum](#extract-minimum) 
+    - [Decrease Key](#decrease-key)
+    - [Merge](#merge)
+- [Performance Complexity](#performance-complexity) 
+- [Usage Information](#usage-information) 
+    - [Compilation](#compilation)  
+    - [Running the Program](#running-the-program) 
+    - [Input Format](#input-format)
+
 ## Problem Statement
 
 This project implements a **Two-Three Heap** data structure that supports efficient operations on multiple integer sets. The structure allows performing the following operations:
@@ -62,12 +77,14 @@ Compile the C++ source file using `g++`:
 g++ -O2 -std=c++17 main.cpp -o heap
 ```
 
-### Running the Program
+### **Running the Program**
 ```sh
 ./heap < input.txt
 ```
 
-### Input Format
+### **Input Format**
+```sh
 N Q
 <operation> <arguments>
 ...
+```
