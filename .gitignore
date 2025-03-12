@@ -4,8 +4,7 @@
 # in / out files
 **/doc/
 
-# TODO: Remove later
-two_three_heap_goidan_old.cpp
+main_old.cpp
 
 # Prerequisites
 *.d
